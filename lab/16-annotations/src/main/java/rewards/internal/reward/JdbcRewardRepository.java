@@ -1,6 +1,7 @@
 package rewards.internal.reward;
 
 import common.datetime.SimpleDate;
+import org.springframework.context.annotation.Configuration;
 import rewards.AccountContribution;
 import rewards.Dining;
 import rewards.RewardConfirmation;
@@ -20,7 +21,7 @@ import java.sql.*;
  * - Inject dataSource by annotating setDataSource() method
  *   with @Autowired.
  */
-
+@Repository("rewardRepository")
 public class JdbcRewardRepository implements RewardRepository {
 
 	private DataSource dataSource;
@@ -29,6 +30,7 @@ public class JdbcRewardRepository implements RewardRepository {
 	 * Sets the data source this repository will use to insert rewards.
 	 * @param dataSource the data source
 	 */
+	@Autowired
 	public void setDataSource(DataSource dataSource) {
 		this.dataSource = dataSource;
 	}

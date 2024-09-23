@@ -1,6 +1,7 @@
 package rewards.internal.restaurant;
 
 import common.money.Percentage;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.dao.EmptyResultDataAccessException;
 
 import javax.sql.DataSource;
@@ -29,7 +30,6 @@ import java.util.Map;
 /*
  * TODO-08: Use Setter injection for DataSource
  * - Change the configuration to set the dataSource
- *   property using setDataSource().
  *
  *   To do this, you must MOVE the @Autowired annotation
  *   you might have set in the previous step on the
@@ -43,7 +43,7 @@ import java.util.Map;
  *   understand why. (If not, refer to lab document).
  *   We will fix this error in the next step.
  */
-
+@Repository("restaurantRepository")
 public class JdbcRestaurantRepository implements RestaurantRepository {
 
 	private DataSource dataSource;
@@ -67,7 +67,8 @@ public class JdbcRestaurantRepository implements RestaurantRepository {
 
 	public JdbcRestaurantRepository() {
 	}
-
+	
+	@Autowired
 	public void setDataSource(DataSource dataSource) {
 		this.dataSource = dataSource;
 	}
@@ -81,7 +82,7 @@ public class JdbcRestaurantRepository implements RestaurantRepository {
 	 * caches from the rows in the T_RESTAURANT table. Cached restaurants are indexed
 	 * by their merchant numbers. This method should be called on initialization.
 	 */
-
+	
 	/*
 	 * TODO-09: Make this method to be invoked after a bean gets created
 	 * - Mark this method with an annotation that will cause it to be
@@ -92,6 +93,7 @@ public class JdbcRestaurantRepository implements RestaurantRepository {
 	 *   the constructor, is a better practice.
 	 */
 
+	@PostConstruct
 	void populateRestaurantCache() {
 		restaurantCache = new HashMap<String, Restaurant>();
 		String sql = "select MERCHANT_NUMBER, NAME, BENEFIT_PERCENTAGE from T_RESTAURANT";
@@ -166,6 +168,7 @@ public class JdbcRestaurantRepository implements RestaurantRepository {
 	 * - Re-run the test and you should be able to see
 	 *   that this method is now being called.
 	 */
+	@PreDestroy
 	public void clearRestaurantCache() {
 		restaurantCache.clear();
 	}

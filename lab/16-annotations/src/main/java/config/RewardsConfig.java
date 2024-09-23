@@ -38,20 +38,20 @@ public class RewardsConfig {
 			rewardRepository());
 	}
 	
-	@Bean
+	//@Bean
 	public AccountRepository accountRepository(){
 		JdbcAccountRepository repository = new JdbcAccountRepository();
 		repository.setDataSource(dataSource);
 		return repository;
 	}
 	
-	@Bean
+	//@Bean
 	public RestaurantRepository restaurantRepository(){
 		JdbcRestaurantRepository repository = new JdbcRestaurantRepository(dataSource);
 		return repository;
 	}
 	
-	@Bean
+	//@Bean
 	public RewardRepository rewardRepository(){
 		JdbcRewardRepository repository = new JdbcRewardRepository();
 		repository.setDataSource(dataSource);
